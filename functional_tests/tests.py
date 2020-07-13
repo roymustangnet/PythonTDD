@@ -2,12 +2,13 @@
 # @Time    : 2020/7/1 10:36
 # @Author  : supakito
 
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-import unittest
 
-class NewVisitorTest(unittest.TestCase):
+
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -23,7 +24,7 @@ class NewVisitorTest(unittest.TestCase):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 伊迪斯听说有一个很酷的在线待办事项应用
         # 她去看了这个应用的首页
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # 她注意到网页标题和头部都包含“To-Do”这个词
         self.assertIn('To-Do', self.browser.title)
@@ -53,7 +54,7 @@ class NewVisitorTest(unittest.TestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(10)
 
         # 页面再次更新，清单中显示了这两个待办事项
         self.check_for_row_in_list_table('1: Buy peacock feathers')
@@ -67,5 +68,5 @@ class NewVisitorTest(unittest.TestCase):
 
 
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()
